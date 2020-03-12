@@ -1,0 +1,56 @@
+---
+- hosts: 172.29.68.119
+  gather_facts: yes
+  vars:
+    ansible_network_os: icx
+    ansible_become: True
+    ansible_user: siteadmin
+    ansible_password: Cr!ck3t*
+    ansible_become_method: enable
+    ansible_become_pass: Cr!ck3t*
+
+  tasks:  
+
+  - name: setup radius server
+    icx_system: 
+      domain_search:
+       - asible.com
+      aaa_servers:
+       - type: radius 
+         hostname: 172.27.20.25
+         auth_port_type: auth-port
+         auth_port_num: 1821
+         acct_port_num: 1813
+         acct_type: default
+         auth_key: $MFFkRDhcWA==
+         auth_key_type:
+          - mac-auth
+          - dot1x
+          - web-auth
+       - type: radius 
+         hostname: 172.23.6.35
+         auth_port_type: auth-port
+         auth_port_num: 1821
+         acct_port_num: 1813
+         acct_type: default
+         auth_key: $MFFkRDhcWA==
+         auth_key_type:
+          - mac-auth
+          - dot1x
+          - web-auth
+       - type: radius 
+         hostname: 172.23.38.35
+         auth_port_type: auth-port
+         auth_port_num: 1821
+         acct_port_num: 1813
+         acct_type: default
+         auth_key: $MFFkRDhcWA==
+         auth_key_type:
+          - mac-auth
+          - dot1x
+          - web-auth
+    
+    register: result
+
+  - debug:
+      msg: '{{ result }}'
